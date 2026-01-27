@@ -820,8 +820,17 @@ export async function generateOpenCodeConfig(azureFoundryToken?: string): Promis
     console.log('[OpenCode Config] Z.AI Coding Plan (International) provider configured with models:', Object.keys(zaiInternationalModels));
   }
 
+  // Determine the default model to use
+  // This is required for oh-my-opencode plugin compatibility
+  let defaultModel: string | undefined;
+  if (activeModel) {
+    defaultModel = activeModel.model;
+    console.log('[OpenCode Config] Using active model as default:', defaultModel);
+  }
+
   const config: OpenCodeConfig = {
     $schema: 'https://opencode.ai/config.json',
+    model: defaultModel,
     default_agent: ACCOMPLISH_AGENT_NAME,
     // Enable all supported providers - providers auto-configure when API keys are set via env vars
     enabled_providers: enabledProviders,
