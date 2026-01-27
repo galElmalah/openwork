@@ -995,10 +995,24 @@ export function registerIPCHandlers(): void {
           );
           break;
 
-        // Z.AI Coding Plan uses the same validation as standard API
+        // Z.AI Coding Plan (Chinese subscription)
         case 'zai':
           response = await fetchWithTimeout(
             'https://open.bigmodel.cn/api/paas/v4/models',
+            {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${sanitizedKey}`,
+              },
+            },
+            API_KEY_VALIDATION_TIMEOUT_MS
+          );
+          break;
+
+        // Z.AI Coding Plan (International subscription)
+        case 'zai-international':
+          response = await fetchWithTimeout(
+            'https://api.z.ai/api/coding/paas/v4/models',
             {
               method: 'GET',
               headers: {
